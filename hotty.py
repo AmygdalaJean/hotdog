@@ -5,6 +5,7 @@ import numpy as np
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt
+import statsmodels.stats.api as sms
 
 # Load the provided Excel file
 file_path = "~/Desktop/hotdog/Hotdog.xlsx" 
@@ -98,6 +99,11 @@ print("Elasticity of Demand with respect to pdub:", elasticity)
 c = cost_per_package  # Cost per package
 p_optimal = c / (1 + 1/elasticity)
 print("Optimal Price using Elasticity Formula:", p_optimal)
+
+#Breush-Pagan test for heteroskedasticity
+test = sms.het_breuschpagan(model.resid, model.model.exog)
+print('Breusch-Pagan Test: ', test)
+
 
 # Graphical Representation: Plot Dubque's Price vs Market Share
 price_range = np.linspace(hotdog_data['pdub'].min(), hotdog_data['pdub'].max(), 100)
